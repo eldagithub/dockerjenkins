@@ -1,7 +1,7 @@
 node {
 
     def newApp
-    def registry = 'https://docker.com/eldahni2019/ocpregistry'
+    def registry = 'eldahni2019/ocpregistry'
     def registryCredential = 'dockerhub'
 	
         stage('Clone') {
