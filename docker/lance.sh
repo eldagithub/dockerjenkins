@@ -1,3 +1,5 @@
+#https://www.youtube.com/watch?v=HFQHB81vJHI
+
 git clone https://github.com/eldagithub/dockerjenkins.git
 dockerjenkins/
 
