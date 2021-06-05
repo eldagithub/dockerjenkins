@@ -21,7 +21,8 @@ node {
 	stage('Removing image') {
         sh "docker rmi registry.hub.docker.com/$registry:$BUILD_NUMBER"
         sh "docker rmi $registry:$BUILD_NUMBER"
-        sh "docker rmi $registry:latest"
+        sh "docker rmi registry.hub.docker.com/$registry:latest"
+        
     }
 
 	
