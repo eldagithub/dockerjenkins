@@ -1,34 +1,28 @@
-node{
-  def app
-    environment {
-      registry = "gustavoapolinario/docker-test"
-      registryCredential = 'dockerhub'
-      dockerImage = ''
-    }
-	
-    stage('Clone') {
-        checkout scm
-    }
+node {
 
-    stage('Building image') {
-          dockerImage = docker.build("elmos/nginx") registry + ":$BUILD_NUMBER"
-    }
+    def newApp
+    def registry = 'eldahni2019/ocpregistry'
+    def registryCredential = 'dockerhub'
 	
-    stage('Deploy Image') {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-    }
-    stage('Remove Unused docker image') {
+        stage('Clone') {
+                checkout scm
+        }
+
+	stage('Building image') {
+        docker.withRegistry( 'https://' + registry, registryCredential ) {
+		    def buildName = registry + ":$BUILD_NUMBER"
+			newApp = docker.build buildName
+			newApp.push()
+        }
+	}
+	stage('Registring image') {
+        docker.withRegistry( 'https://' + registry, registryCredential ) {
+    		newApp.push 'latest2'
+        }
+	}
+    stage('Removing image') {
         sh "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi $registry:latest"
     }
-
-	
-    stage('Test image') {
-        docker.image('elmos/nginx').withRun('-p 80:80') { c ->
-        sh 'docker ps'
-        sh 'curl localhost'
-	     }
-    }
+    
 }
-
