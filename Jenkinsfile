@@ -9,15 +9,17 @@ node {
         }
 
 	stage('Building image & Registring image') {
-        docker.withRegistry( '' + registry, registryCredential ) {
+                    docker.withRegistry( 'https://registry.hub.docker.com/' + registry, registryCredential ) {
 		    def buildName = registry + ":$BUILD_NUMBER"
 			newApp = docker.build buildName
 			newApp.push()
+			newApp.push 'latest'
         }
 	}
 
+	
 	stage('Removing image') {
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi registry.hub.docker.com/$registry:$BUILD_NUMBER"
         // sh "docker rmi $registry:latest"
     }
 
