@@ -1,4 +1,6 @@
-FROM nginx:latest
+# FROM nginx:latest
+
+FROM nginxinc/nginx-unprivileged
 
 RUN sed -i 's/nginx/elmos20210606mos/g' /usr/share/nginx/html/index.html
 
