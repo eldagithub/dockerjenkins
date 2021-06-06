@@ -1,6 +1,7 @@
 node {
 
     def newApp
+    def version = '1.0.0'
     def registry = 'eldahni2019/ocpregistry'
     def registryCredential = 'dockerhub'
 	
@@ -10,7 +11,7 @@ node {
 
 	stage('Building image & Registring image') {
                     docker.withRegistry( 'https://registry.hub.docker.com/' + registry, registryCredential ) {
-		    def buildName = registry + ":$BUILD_NUMBER"
+		    def buildName = registry + ":" + version + ".$BUILD_NUMBER"
 			newApp = docker.build buildName
 			newApp.push()
 			//newApp.push 'latest'
