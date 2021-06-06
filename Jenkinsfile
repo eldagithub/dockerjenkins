@@ -13,7 +13,7 @@ node {
 		    def buildName = registry + ":$BUILD_NUMBER"
 			newApp = docker.build buildName
 			newApp.push()
-			newApp.push 'latest'
+			//newApp.push 'latest'
         }
 	}
 
@@ -21,7 +21,7 @@ node {
 	stage('Removing image') {
         sh "docker rmi registry.hub.docker.com/$registry:$BUILD_NUMBER"
         sh "docker rmi $registry:$BUILD_NUMBER"
-        sh "docker rmi registry.hub.docker.com/$registry:latest"
+        //sh "docker rmi registry.hub.docker.com/$registry:latest"
         
     }
 
