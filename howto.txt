@@ -1,0 +1,43 @@
+https://github.com/g0t4/course-jenkins-getting-started
+
+centosbox : 
+jenkins + docker + mailho
+sudo service jenkins status
+docker run -d --name mailhog -p 8025:8025 -p 1025:1025 mailhog/mailhog
+
+debianbox : 
+docker
+jenkins agent --> agent.jar
+        java -jar agent.jar -jnlpUrl http://centosboxpro:8080/computer/debianAgent/jenkins-agent.jnlp -secret f158d2b7a268ede2e35a85973a4ae8929fbc3c22ee4abe37e2e2df1f9ebda579 -workDir "/var/jenkins"
+
+Docker
+docker run -p 8080:8080 -p 50000:50000 -v /your/home:/var/jenkins_home jenkins
+
+
+docker run -p 8080:8080 -p 50000:50000 --name jenkins -v /Users/elmos/work/jenkins/var_home:/var/jenkins_home self-jenkins-img
+docker run -p 8088:8080 -p 50008:50000 -e JAVA_OPTS='-Xmx2048m  -XX:MaxPermSize=512m' --name jenkins2Go -v /Users/elmos/work/jenkins/var_home2g:/var/jenkins_home jenkins/jenkins:2.326-jdk11
+
+EXPORT / IMPORT
+Method 1
+------
+http://localhost:8080/job/TEST-from-Pluralsight-gettingStarted/job/spring-petclinic/
+
+java -jar jenkins-cli.jar -s http://elmos:pass@localhost:8088 get-job TEST-from-Pluralsight-gettingStarted/spring-petclinic > spring-petclinic.xml 
+
+
+java -jar jenkins-cli.jar -s http://elmos:pass@localhost:8080 create-job spring-petclinic < spring-petclinic.xml 
+
+--------
+Method 2
+https://medium.com/@muku.hbti/export-import-jenkins-job-and-their-plugins-53cafa5869fa
+wget https://s3.us-east-1.amazonaws.com/butlercli/1.0.0/linux/butler
+wget https://s3.us-east-1.amazonaws.com/butlercli/1.0.0/osx/butler
+
+
+./butler plugins export --server http://localhost:8080 --username elmos --password pass 
+./butler jobs export --server http://localhost:8080 --username elmos --password pass 
+
+
+./butler plugins import --server http://localhost:8088 --username elmos --password pass 
+./butler jobs import --server http://localhost:8088 --username elmos --password pass 
+
